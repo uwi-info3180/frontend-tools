@@ -1,0 +1,43 @@
+@import 'variables';
+
+%default-font-style {
+  font-family: $default-font-stack;
+  font-size: 18px;
+}
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;     
+  -moz-border-radius: $radius;      
+  -ms-border-radius: $radius;          
+  border-radius: $radius;
+}
+
+body {
+  background-color: $bg-color;
+}
+
+h1 {
+  @extend %default-font-style;
+  color: $main-color;
+}
+
+p {
+  @extend %default-font-style;
+}
+
+.rounded-box {
+  @include border-radius(10px);
+}
+
+main {
+  h3 {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  ul {
+    li {
+      color: $accent-color;
+    }
+  }
+}
