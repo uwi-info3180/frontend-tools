@@ -9,7 +9,10 @@
   "keywords": [
     "frontend",
     "gulp",
-    "vuejs"
+    "sass",
+    "imagemin",
+    "babel",
+    "eslint"
   ],
   "author": "Yannick Lyn Fatt",
   "license": "ISC",
@@ -20,12 +23,16 @@
     "eslint-plugin-import": "^2.22.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
+    "gulp-connect": "^5.7.0",
     "gulp-eslint": "^6.0.0",
     "gulp-imagemin": "^7.1.0",
     "gulp-rename": "^2.0.0",
-    "gulp-sass": "^4.1.0",
+    "gulp-sass": "^5.1.0",
     "gulp-uglify": "^3.0.2",
-    "node-sass": "^5.0.0"
+    "sass": "^1.49.9"
   },
-  "dependencies": {}
+  "dependencies": {
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "typescript": "^4.6.2"
+  }
 }

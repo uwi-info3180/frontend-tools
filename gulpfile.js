@@ -1,10 +1,24 @@
-const { src, dest, series, watch } = require('gulp');
+const {
+  src,
+  dest,
+  series,
+  watch,
+} = require('gulp');
 const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
 const rename = require('gulp-rename');
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 const eslint = require('gulp-eslint');
 const imagemin = require('gulp-imagemin');
+const connect = require('gulp-connect');
+const ts = require('gulp-typescript');
+
+function startDevServer() {
+  connect.server({
+    root: 'build',
+    livereload: true,
+  });
+}
 
 function jsBuild() {
   return src('src/js/*.js')
@@ -12,13 +26,16 @@ function jsBuild() {
     .pipe(dest('build/'))
     .pipe(uglify())
     .pipe(rename({ extname: '.min.js' }))
-    .pipe(dest('build/'));
+    .pipe(dest('build/'))
+    .pipe(connect.reload());
 }
 
 function scss() {
   return src('src/scss/*.scss')
     .pipe(sass.sync().on('error', sass.logError))
-    .pipe(dest('build/css'));
+    // .pipe(sass.sync({outputStyle: 'compressed'}).on('error', sass.logError))
+    .pipe(dest('build/css'))
+    .pipe(connect.reload());
 }
 
 function optimize() {
@@ -42,11 +59,32 @@ function lint() {
     .pipe(eslint.failAfterError());
 }
 
+function copyHtmlFile() {
+  return src('src/**/*.html')
+    .pipe(dest('build'))
+    .pipe(connect.reload());
+}
+
+function compileTS() {
+  return src('src/**/*.ts')
+    .pipe(ts({
+      outFile: 'typescript-test.js',
+    }))
+    .pipe(dest('build'));
+}
+
 exports.optimizeImages = optimize;
 exports.lint = lint;
 exports.scss = scss;
 exports.jsBuild = jsBuild;
+exports.copyHtmlFile = copyHtmlFile;
+exports.compileTS = compileTS;
+exports.startDevServer = startDevServer;
 exports.default = () => {
+  // task('startDevServer', startDevServer);
+  startDevServer();
+  watch('src/*.html', copyHtmlFile);
   watch('src/js/*.js', series(lint, jsBuild));
   watch('src/scss/*.scss', scss);
+  watch('src/**/*.ts', compileTS);
 };

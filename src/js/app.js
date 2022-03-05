@@ -6,3 +6,16 @@ const testing = () => {
 };
 
 testing();
+
+class Hello {
+  constructor() {
+    this.myVar = 'Hello';
+  }
+
+  sayHello() {
+    return this.myVar;
+  }
+}
+
+const myClass = Hello();
+myClass.sayHello();
