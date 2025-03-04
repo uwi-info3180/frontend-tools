@@ -1,4 +1,4 @@
-@import 'variables';
+@use 'variables' as *;
 
 %default-font-style {
   font-family: $default-font-stack;
@@ -6,9 +6,9 @@
 }
 
 @mixin border-radius($radius) {
-  -webkit-border-radius: $radius;     
-  -moz-border-radius: $radius;      
-  -ms-border-radius: $radius;          
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
   border-radius: $radius;
 }
 

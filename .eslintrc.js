@@ -4,7 +4,7 @@ module.exports = {
     // es2021: true,
   },
   extends: [
-    'airbnb-base',
+    // 'airbnb-base',
   ],
   parserOptions: {
     ecmaVersion: 6,

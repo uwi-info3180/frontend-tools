@@ -1,17 +1,20 @@
-const {
+import {
   src,
   dest,
   series,
   watch,
-} = require('gulp');
-const babel = require('gulp-babel');
-const uglify = require('gulp-uglify');
-const rename = require('gulp-rename');
-const sass = require('gulp-sass')(require('sass'));
-const eslint = require('gulp-eslint');
-const imagemin = require('gulp-imagemin');
-const connect = require('gulp-connect');
-const ts = require('gulp-typescript');
+}  from 'gulp';
+import babel  from 'gulp-babel';
+import uglify from 'gulp-uglify';
+import rename from 'gulp-rename';
+import dartSass from 'sass';
+import gulpSass from 'gulp-sass';
+import eslint  from 'gulp-eslint';
+import imagemin, { mozjpeg } from 'gulp-imagemin';
+import connect from 'gulp-connect';
+import ts from 'gulp-typescript';
+
+const sass = gulpSass(dartSass);
 
 function startDevServer() {
   connect.server({
@@ -33,15 +36,15 @@ function jsBuild() {
 function scss() {
   return src('src/scss/*.scss')
     .pipe(sass.sync().on('error', sass.logError))
-    // .pipe(sass.sync({outputStyle: 'compressed'}).on('error', sass.logError))
+    // .pipe(sass.sync({ style: 'compressed' }).on('error', sass.logError))
     .pipe(dest('build/css'))
     .pipe(connect.reload());
 }
 
 function optimize() {
-  return src('src/images/*')
+  return src('src/images/*', { encoding: false })
     .pipe(imagemin([
-      imagemin.mozjpeg({ quality: 75, progressive: true }),
+      mozjpeg({ quality: 75, progressive: true }),
     ]))
     .pipe(dest('build/images'));
 }
@@ -73,18 +76,10 @@ function compileTS() {
     .pipe(dest('build'));
 }
 
-exports.optimizeImages = optimize;
-exports.lint = lint;
-exports.scss = scss;
-exports.jsBuild = jsBuild;
-exports.copyHtmlFile = copyHtmlFile;
-exports.compileTS = compileTS;
-exports.startDevServer = startDevServer;
-exports.default = () => {
-  // task('startDevServer', startDevServer);
-  startDevServer();
-  watch('src/*.html', copyHtmlFile);
-  watch('src/js/*.js', series(lint, jsBuild));
-  watch('src/scss/*.scss', scss);
-  watch('src/**/*.ts', compileTS);
-};
+export { optimize as optimizeImages };
+export { lint as lint };
+export { scss as scss};
+export { jsBuild as jsBuild};
+export { copyHtmlFile as copyHtmlFile };
+export { compileTS as compileTS };
+export { startDevServer as startDevServer };
