@@ -83,3 +83,5 @@ export { jsBuild as jsBuild};
 export { copyHtmlFile as copyHtmlFile };
 export { compileTS as compileTS };
 export { startDevServer as startDevServer };
+
+export default series(scss, lint, jsBuild, compileTS, copyHtmlFile, startDevServer);
