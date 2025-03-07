@@ -84,4 +84,10 @@ export { copyHtmlFile as copyHtmlFile };
 export { compileTS as compileTS };
 export { startDevServer as startDevServer };
 
-export default series(scss, lint, jsBuild, compileTS, copyHtmlFile, startDevServer);
+
+
+export default function () {
+  startDevServer();
+  series(scss, lint, jsBuild, compileTS, copyHtmlFile)
+  watch('src/*.html', copyHtmlFile);
+}
